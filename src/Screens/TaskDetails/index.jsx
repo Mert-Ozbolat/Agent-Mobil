@@ -4,7 +4,7 @@ import AppColors from '../../Theme/color';
 import { Button, Divider } from '@ui-kitten/components';
 import moment from 'moment'
 import { setCategory } from '../../Utils/function';
-import { tasksValues } from '../../Utils/constant';
+import { status, tasksValues } from '../../Utils/constant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TaskDetails = ({ route }) => {
@@ -22,6 +22,31 @@ const TaskDetails = ({ route }) => {
             console.log('Görev Silindi');
         } catch (error) {
             console.log('Görev silinirken hata oluştu:', error);
+        }
+    };
+
+    const updateTask = async newStatus => {
+        try {
+            const savedTasks = await AsyncStorage.getItem('tasks');
+
+            if (savedTasks === null) {
+                return;
+            }
+
+            const tasks = JSON.parse(savedTasks);
+            const updatedTask = tasks.map(task => {
+                if (task.id === item.id) {
+                    return {
+                        ...task,
+                        status: newStatus,
+                    };
+                }
+                return task;
+            });
+            await AsyncStorage.setItem('tasks', JSON.stringify(updatedTask));
+            console.log('Görev Güncellendi', updateTask);
+        } catch (error) {
+            console.log('Görev güncellenirken hata oluştu:', error);
         }
     };
 
@@ -120,9 +145,18 @@ const TaskDetails = ({ route }) => {
                 <Divider style={{ backgroundColor: "#8f8f8f" }} />
             </ScrollView>
             <View>
-                <Button style={styles.button} status='primary'>Start</Button>
-                <Button style={styles.button} status='success'>Complated</Button>
-                <Button style={styles.button} status='danger'>Cancel</Button>
+                <Button
+                    onPress={() => updateTask(status.pending)}
+                    style={styles.button} status='primary'>Start</Button>
+
+                <Button
+                    onPress={() => updateTask(status.coplated)}
+                    style={styles.button} status='success'>Completed</Button>
+
+                <Button
+                    onPress={() => updateTask(status.cancel)}
+                    style={styles.button} status='danger'>Cancel</Button>
+
                 <Button
                     onPress={deleteTask}
                     style={styles.button} status='warning'>Delete</Button>

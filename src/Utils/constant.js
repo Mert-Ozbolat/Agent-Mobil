@@ -2,17 +2,12 @@ import { Chart1, Clock, ClipboardTick, ClipboardClose, ArrowRight2 } from 'icons
 import AppColors from '../Theme/color'
 
 
-
 const status = {
     cancel: 4,
     pending: 2,
     coplated: 3,
     onGoing: 1,
 }
-
-
-
-
 
 const tasksValues = [
     {
@@ -40,14 +35,6 @@ const tasksValues = [
         icon: <ClipboardClose size="32" color={AppColors.white} />,
     },
 ]
-
-
-
-
-
-
-
-
 
 
 
