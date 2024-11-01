@@ -1,8 +1,8 @@
 const status = {
-    cancel: 1,
+    cancel: 4,
     pending: 2,
     coplated: 3,
-    onGoing: 4,
+    onGoing: 1,
 }
 
 export { status }

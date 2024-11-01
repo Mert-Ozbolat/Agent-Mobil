@@ -12,10 +12,10 @@ import uuid from 'react-native-uuid'
 
 const AddTask = () => {
 
-    const saveTask = async (values) => {
+    const saveTask = async values => {
         try {
             const savedTasks = await AsyncStorage.getItem('tasks');
-            let myTask = savedTasks ? JSON.parse(saveTask) : []
+            let myTask = savedTasks ? JSON.parse(savedTasks) : []
             myTask.push(values)
             await AsyncStorage.setItem('tasks', JSON.stringify(myTask))
         } catch (error) {

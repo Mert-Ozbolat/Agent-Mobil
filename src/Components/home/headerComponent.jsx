@@ -6,32 +6,36 @@ import { Chart1, Clock, ClipboardTick, ClipboardClose, ArrowRight2 } from 'icons
 
 
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ onGoing, pending, coplated, cancel }) => {
 
     const tasks = [
         {
             id: 1,
             title: "Ongoing",
             color: AppColors.onGoing,
-            icon: <Chart1 size="32" color={AppColors.white} />
+            icon: <Chart1 size="32" color={AppColors.white} />,
+            count: onGoing,
         },
         {
             id: 2,
             title: "Pending",
             color: AppColors.pending,
-            icon: <Clock size="32" color={AppColors.white} />
+            icon: <Clock size="32" color={AppColors.white} />,
+            count: pending,
         },
         {
             id: 3,
             title: "Complated",
             color: AppColors.coplated,
-            icon: <ClipboardTick size="32" color={AppColors.white} />
+            icon: <ClipboardTick size="32" color={AppColors.white} />,
+            count: coplated,
         },
         {
             id: 4,
             title: "Cancel",
             color: AppColors.cancel,
-            icon: <ClipboardClose size="32" color={AppColors.white} />
+            icon: <ClipboardClose size="32" color={AppColors.white} />,
+            count: cancel,
         },
     ]
 
@@ -68,7 +72,7 @@ const HeaderComponent = () => {
                             fontSize: 16,
                             fontWeight: '600',
                             marginTop: 5
-                        }}>10</Text>
+                        }}>{item.count} Task</Text>
                     </View>
 
                     <View>

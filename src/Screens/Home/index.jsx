@@ -11,24 +11,53 @@ import HeaderComponent from '../../Components/home/headerComponent'
 
 const Home = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false)
-    const [tasks, setTask] = useState([])
+    const [tasks, setTasks] = useState([])
+    const [onGoing, setOngoing] = useState(0);
+    const [pending, setPending] = useState(0);
+    const [complated, setComplated] = useState(0);
+    const [cancel, setCancel] = useState(0);
 
+
+    const getTask = async () => {
+        try {
+            const savedTask = await AsyncStorage.getItem('tasks')
+            setTasks(JSON.parse(savedTask));
+
+            let complatedCount = 0;
+            let pendingCount = 0;
+            let onGoingCount = 0;
+            let cancelCount = 0;
+
+            for (const task of JSON.parse(savedTask)) {
+                if (task.status === 1) {
+                    onGoingCount++
+                }
+                if (task.status === 2) {
+                    pendingCount++
+                }
+                if (task.status === 3) {
+                    complatedCount++
+                }
+                if (task.status === 4) {
+                    cancelCount++
+                }
+                setOngoing(onGoingCount);
+                setPending(pendingCount);
+                setComplated(complatedCount);
+                setCancel(cancelCount);
+            }
+
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const onRefresh = () => {
         setRefreshing(true)
         getTask()
         setRefreshing(false)
-    }
-
-    const getTask = async () => {
-        let myTask = []
-        try {
-            const task = await AsyncStorage.getItem('task')
-            myTask.push(JSON.parse(task));
-            setTask(myTask)
-        } catch (error) {
-            console.log(error)
-        }
     }
 
     useEffect(() => {
@@ -39,7 +68,12 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
             <FlatList
                 data={tasks}
-                ListHeaderComponent={<HeaderComponent />}
+                ListHeaderComponent={
+                    <HeaderComponent
+                        onGoing={onGoing}
+                        pending={pending}
+                        coplated={complated}
+                        cancel={cancel} />}
                 renderItem={({ item }) => <TaskCard item={item} />}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
