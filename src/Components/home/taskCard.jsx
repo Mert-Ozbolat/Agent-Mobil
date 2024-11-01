@@ -4,6 +4,7 @@ import moment from 'moment'
 import { useNavigation } from '@react-navigation/native'
 import { TASKDETAILS } from '../../Utils/routes'
 import { tasksValues } from '../../Utils/constant'
+import { setCategory } from '../../Utils/function'
 
 
 
@@ -40,6 +41,12 @@ const TaskCard = ({ item }) => {
                 </View>
             </View>
 
+
+            <View>
+                <Text style={{ fontSize: 14, fontWeight: '400', color: '#4f4f4f' }}>
+                    {setCategory(item.category)}
+                </Text>
+            </View>
 
         </Pressable>
     )
