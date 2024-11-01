@@ -4,6 +4,7 @@ import FloatActionButton from '../../Components/UI/floatActionButton'
 import { ADDTASKS } from '../../Utils/routes'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import TaskCard from '../../Components/home/taskCard'
+import HeaderComponent from '../../Components/home/headerComponent'
 
 
 
@@ -18,8 +19,6 @@ const Home = ({ navigation }) => {
         getTask()
         setRefreshing(false)
     }
-
-
 
     const getTask = async () => {
         let myTask = []
@@ -40,11 +39,11 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
             <FlatList
                 data={tasks}
+                ListHeaderComponent={<HeaderComponent />}
                 renderItem={({ item }) => <TaskCard item={item} />}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
-
             />
             <FloatActionButton onPress={() => navigation.navigate(ADDTASKS)} />
         </View>
